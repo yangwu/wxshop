@@ -45,4 +45,38 @@ class bz{
 		
 		return json_encode($resultareas);
 	}
+	public function insertorder($productid,$name,$mobile,$province,$city,$area,$address,$flag) {
+		return $this->dbhelper->insertorder($productid, $name, $mobile, $province, $city, $area, $address, $flag);
+	}
+	
+	public function updateOrder($orderid,$productid,$name,$mobile,$province,$city,$area,$address,$flag){
+		return $this->dbhelper->updateorder($orderid, $productid, $name, $mobile, $province, $city, $area, $address, $flag);
+	}
+	public function getfulladdress($provinceid,$cityid,$areaid,$address) {
+		$presult = $this->dbhelper->getProvinceName($provinceid);
+		if($tempp = mysql_fetch_array($presult)){
+			$provincename = $tempp['province'];
+		}
+		
+		$cresult = $this->dbhelper->getCityName($cityid);
+		if($tempc = mysql_fetch_array($cresult)){
+			$cityname = $tempc['city'];
+		}
+		
+		$aresult = $this->dbhelper->getAreaName($areaid);
+		if($tempa = mysql_fetch_array($aresult)){
+			$areaname = $tempa['area'];
+		}
+		
+		return $provincename."&nbsp;&nbsp;".$cityname."&nbsp;&nbsp;".$areaname."&nbsp;&nbsp;".$address;
+	}
+	
+	public function getOrderInfo($orderid) {
+		$result = $this->dbhelper->getOrderInfo($orderid);
+		if($temporder = mysql_fetch_array($result)){
+			return $temporder;
+		}
+		return null;
+	}
+	
 }

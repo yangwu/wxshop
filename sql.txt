@@ -1,14 +1,26 @@
-# MySQL-Front 5.1  (Build 2.7)
-
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
-/*!40101 SET SQL_MODE='' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
-/*!40103 SET SQL_NOTES='ON' */;
 
 
-# Host: localhost    Database: iptowx_area
-# ------------------------------------------------------
-# Server version 5.0.26
+CREATE TABLE wx_product(
+	id int(11) NOT NULL auto_increment,
+	productname varchar(200) default NULL,
+	primary key(id)
+)DEFAULT CHARSET=utf8;
+
+insert into wx_product(productname) values("盛世玫瑰.钛金刀登录中国市场，斥资免费送，每人限领一套！")
+
+DROP TABLE IF EXISTS  `wx_order`;
+CREATE TABLE wx_order(
+	id int(11) NOT NULL auto_increment,
+	productid int(11),
+	name varchar(100),
+	mobile varchar(50),
+	provinceid varchar(6),
+	cityid varchar(6),
+	areaid varchar(6),
+	address varchar(500),
+	flag int(1),
+	primary key (id)
+)DEFAULT CHARSET=utf8;
 
 #
 # Source for table wx_area

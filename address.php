@@ -1,4 +1,12 @@
+<?php 
+include_once dirname ( '__FILE__' ) . '/./bz.php';
 
+$bz = new bz();
+$orderid = $_GET['o'];
+if(isset($orderid)){
+	$orderinfo = $bz->getOrderInfo($orderid); 
+}
+?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -67,9 +75,10 @@
 <div class="container">
 	
 	
-<form id="form1" name="form1" class="form-horizontal form" action="http://wx.pinoth.com/3cuc_admin/a/s1606139624807900/cm0001/wx_group/index.php/you/Bjq_bsq/?top=344628&id=959" method="post">
+<form id="form1" name="form1" class="form-horizontal form" action="./confirm.php" method="post">
        <input id="act" name="act" type="hidden" value="" />
-       <input id="orderId" name="orderId" type="hidden" value="" />
+       <input id="orderId" name="orderId" type="hidden" value="<?php echo $orderid;?>" />
+       <input id="productid" name="productid" type="hidden" value="1" />
         <div class="lead_box" id="step_2" >
           <h6>盛世玫瑰.钛金刀登录中国市场，斥资免费送，每人限领一套！</h6>
           <p style="box-sizing: border-box; margin: 0px 0px 10px; color: #333333; font-family: arial, &#039;Hiragino Sans GB&#039;, &#039;Microsoft Yahei&#039;, 微软雅黑, 宋体, 宋体, Tahoma, Arial, Helvetica, STHeiti; font-size: 14px; line-height: 20px;">盛世玫瑰.钛金刀为打入中国市场，<span style="color: #333333; font-family: arial, &#039;Hiragino Sans GB&#039;, &#039;Microsoft Yahei&#039;, 微软雅黑, 宋体, 宋体, Tahoma, Arial, Helvetica, STHeiti; font-size: 14px; line-height: 20px; widows: auto;">斥资打造免费送活动</span>，<span style="color: #333333; font-family: arial, &#039;Hiragino Sans GB&#039;, &#039;Microsoft Yahei&#039;, 微软雅黑, 宋体, 宋体, Tahoma, Arial, Helvetica, STHeiti; font-size: 14px; line-height: 20px; widows: auto;">将原用于中国区的宣传广告费直接做成钛金刀回馈用户，</span>每人限领一套！盛世玫瑰.钛金刀号称&ldquo;切菜神器&rdquo;，成就你的美味佳肴。<span style="color: #ff0000;">此次活动产品涉及到运费、包装费、保价费为39元由用户自理（由快递收取）</span>，<span style="color: #ff0000; font-family: arial, &#039;Hiragino Sans GB&#039;, &#039;Microsoft Yahei&#039;, 微软雅黑, 宋体, 宋体, Tahoma, Arial, Helvetica, STHeiti; font-size: 14px; line-height: 20px;">活动时间2016年8月1</span><span style="color: #ff0000;">日至2016年8月31日。</span></p>
@@ -81,7 +90,7 @@
                 <label class="col-xs-12 item-label" id="title[0]">豪华钛金刀:</label>
                     <div id="sel_sx" class="col-xs-12">      
                                                           <!-- <li shuxing_code="豪华5件套" class="tab-on">豪华5件套</li>-->
-                                   <label class="inpbox"> <input type="radio" value="豪华5件套"  name="shuxing" checked > 豪华5件套   </label>
+                                   <label class="inpbox"> <input type="radio" value="豪华5件套"  id="productname" name="productname" checked > 豪华5件套   </label>
                         	                               
 					</div>
                     </div>
@@ -94,13 +103,13 @@
                     <div class="form-group">
                     <label class="col-xs-12 item-label">姓名:</label>
                     <div class="col-xs-12">
-                     <input type="text" id="address_name" name="address_name" value="" class="form-control" />
+                     <input type="text" id="address_name" name="address_name" value="<?php if($orderinfo!= null) echo $orderinfo['name'];?>" class="form-control" />
                       <span class="help-block">请填写收货人全名（资料不详，不予发货）</span>                 </div>
              </div>
              <div class="form-group">
                     <label class="col-xs-12 item-label">手机号:</label>
                     <div class="col-xs-12">
-                    <input type="text" id="tel" name="tel" value="" class="form-control" />
+                    <input type="text" id="tel" name="tel" value="<?php if($orderinfo!= null) echo $orderinfo['mobile'];?>" class="form-control" />
                     <span class="help-block">请填写正确手机号码（号码不详，不予发货）</span>                 </div>
              </div>
              <div class="form-group">
@@ -152,7 +161,7 @@
                 <div class="form-group">
                     <label class="col-xs-12 item-label">详细街道地址:</label>
                     <div class="col-xs-12">
-                     <input type="text" id="address" name="address" value="" class="form-control" />
+                     <input type="text" id="address" name="address" value="<?php if($orderinfo!= null) echo $orderinfo['address'];?>" class="form-control" />
                       <span class="help-block">请填写县/乡/街道/路/号（资料不详，不予发货）</span>                 </div>
              	</div>
              <div class="form-group">
@@ -236,7 +245,7 @@ function checks()
 		exit;
 	}
 	
-	if($("input[name=shuxing]:checked").length < 1){
+	if($("input[name=productname]:checked").length < 1){
 		alert("请选择一个款式！");
 		$("input[name=shuxing]:eq(0)").focus();
 		lxlczjs();
@@ -283,6 +292,13 @@ function checks()
 	}
 
 	if($("input[name=status]:checked").length < 1){
+		alert("请同意支付保价费！");
+		$("input[name=status]:eq(0)").focus();
+		lxlczjs();
+		return false; 
+	}
+
+	if($("input[name=status]:checked").val() != '1'){
 		alert("请同意支付保价费！");
 		$("input[name=status]:eq(0)").focus();
 		lxlczjs();
