@@ -1,12 +1,14 @@
+create database wxshop;
 
-
+use wxshop;
+DROP TABLE IF EXISTS  `wx_product`;
 CREATE TABLE wx_product(
 	id int(11) NOT NULL auto_increment,
 	productname varchar(200) default NULL,
 	primary key(id)
 )DEFAULT CHARSET=utf8;
 
-insert into wx_product(productname) values("盛世玫瑰.钛金刀登录中国市场，斥资免费送，每人限领一套！")
+insert into wx_product(productname) values("盛世玫瑰.钛金刀登录中国市场，斥资免费送，每人限领一套！");
 
 DROP TABLE IF EXISTS  `wx_order`;
 CREATE TABLE wx_order(
