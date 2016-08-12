@@ -31,16 +31,16 @@ class db{
 	}
 	
 	function insertorder($productid,$name,$mobile,$province,$city,$area,$address,$flag) {
-		$insertorder = 'insert into wx_order(productid,name,mobile,provinceid,cityid,areaid,address,flag) values('.$productid.',"'.mysql_real_escape_string($name).'","'
+		$insertorder = 'insert into wx_order(productid,name,mobile,provinceid,cityid,areaid,address,flag,createtime) values('.$productid.',"'.mysql_real_escape_string($name).'","'
 				.mysql_real_escape_string($mobile).'","'.mysql_real_escape_string($province).'","'.mysql_real_escape_string($city).'","'.mysql_real_escape_string($area)
-				.'","'.mysql_real_escape_string($address).'",'.$flag.')';
+				.'","'.mysql_real_escape_string($address).'",'.$flag.',  "'.date ( 'Ymd H:i:s' ).'")';
 		$result = mysql_query($insertorder);
 		return mysql_insert_id ();
 	}
 	
 	function updateorder($orderid,$productid,$name,$mobile,$province,$city,$area,$address,$flag){
 		$updatesql = 'update wx_order set productid = '.$productid.', name= "'.$name.'", mobile="'.$mobile.'", provinceid="'.$province.'", cityid="'.$city.'", areaid="'
-						.$area.'", address="'.$address.'",flag='.$flag.' where id='.$orderid;
+						.$area.'", address="'.$address.'",flag='.$flag.',createtime="'.date ( 'Ymd H:i:s' ).'"  where id='.$orderid;
 		return mysql_query($updatesql);
 	}
 	
