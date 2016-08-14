@@ -63,4 +63,9 @@ class db{
 		$oinfosql = 'select * from wx_order where id = '.$orderid;
 		return mysql_query($oinfosql);
 	}
+	
+	function getorders(){
+		$osql = 'select * from wx_order order by createtime desc';
+		return mysql_query($osql);
+	}
 }

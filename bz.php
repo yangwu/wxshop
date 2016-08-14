@@ -79,4 +79,13 @@ class bz{
 		return null;
 	}
 	
+	public function getOrders(){
+		$orderslist = array();
+		$orders = $this->dbhelper->getorders();
+		while($order = mysql_fetch_array($orders)){
+			$orderslist[] = $order;
+		}
+		return $orderslist;
+	}
+	
 }
